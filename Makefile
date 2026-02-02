@@ -19,7 +19,7 @@ clean:
 		rm $(VS_SHIP_DECODER)
 
 format:
-		clang-format -i *.cc *.h
+		clang-format -i *.cc
 
 $(VS_SHIP_DECODER):	./vs-ship-decoder.cc
 		$(CXX) $(CXXFLAGS) $^ -lz -o $@

@@ -1,13 +1,13 @@
+#include <algorithm>
 #include <cassert>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 #include "lnbt.hpp"
-#include "zstr.hpp"
 #include "nlohmann/json.hpp"
+#include "zstr.hpp"
 
 struct Ship {
   int id;
@@ -16,7 +16,7 @@ struct Ship {
   std::string name;
 };
 
-static inline std::ostream& operator<<(std::ostream &os, const Ship& ship) {
+static inline std::ostream &operator<<(std::ostream &os, const Ship &ship) {
   os << std::setw(6) << std::right << ship.id;
   os << std::setw(10) << std::right << ship.x;
   os << std::setw(10) << std::right << ship.y;
@@ -26,9 +26,9 @@ static inline std::ostream& operator<<(std::ostream &os, const Ship& ship) {
   return os;
 }
 
-int main(int argc, char *argv[]) {
+int run(const char *filename) {
   try {
-    auto in_file = zstr::ifstream("vs_ship_data.dat", std::ios::binary);
+    auto in_file = zstr::ifstream(filename, std::ios::binary);
 
     nbt::NBT data = nbt::bin::read(in_file);
     const nbt::Tag *a = data.tag.get_if("data");
@@ -37,12 +37,12 @@ int main(int argc, char *argv[]) {
     const auto *b = a->get_if<std::vector<std::int8_t>>("vs_pipeline");
     assert(b);
 
-    const std::string str(reinterpret_cast<const char*>(b->data()), b->size());
+    const std::string str(reinterpret_cast<const char *>(b->data()), b->size());
     // std::cout << str << "\n";
 
     std::vector<Ship> ships;
     auto json = nlohmann::json::parse(str);
-    for (const auto &ship: json["ships"]) {
+    for (const auto &ship : json["ships"]) {
       Ship s;
 
       s.id = ship["id"].get<int>();
@@ -69,4 +69,13 @@ int main(int argc, char *argv[]) {
   }
 
   return 0;
+}
+
+int main(int argc, char *argv[]) {
+  if (argc != 2) {
+    std::cerr << "Usage: %s /.../path/to/vs_ship_data.dat\n";
+    return 1;
+  }
+
+  return run(argv[1]);
 }
