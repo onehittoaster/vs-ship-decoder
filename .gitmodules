@@ -1,0 +1,9 @@
+[submodule "vendor/LightNBT"]
+	path = vendor/LightNBT
+	url = https://github.com/HappyArno/LightNBT.git
+[submodule "vendor/json"]
+	path = vendor/json
+	url = https://github.com/nlohmann/json
+[submodule "vendor/zstr"]
+	path = vendor/zstr
+	url = https://github.com/mateidavid/zstr
