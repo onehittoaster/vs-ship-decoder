@@ -18,9 +18,9 @@ struct Ship {
 
 static inline std::ostream &operator<<(std::ostream &os, const Ship &ship) {
   os << std::setw(6) << std::right << ship.id;
-  os << std::setw(10) << std::right << ship.x;
-  os << std::setw(10) << std::right << ship.y;
-  os << std::setw(10) << std::right << ship.z;
+  os << std::setw(11) << std::right << ship.x;
+  os << std::setw(11) << std::right << ship.y;
+  os << std::setw(11) << std::right << ship.z;
   os << std::setw(10) << std::right << static_cast<int64_t>(ship.mass);
   os << "   " << std::left << ship.name;
   return os;
